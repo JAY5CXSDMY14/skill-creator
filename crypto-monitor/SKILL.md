@@ -13,6 +13,10 @@ version: 1.0.0
 - 记录每一笔交易
 - 非必要不交易
 
+## 凭证管理
+- OKX API位置：~/.openclaw/credentials/okx-api-key.txt
+- 读取方式：`API_KEY=$(cat ~/.openclaw/credentials/okx-api-key.txt)`
+
 ## 执行步骤（严格按顺序执行）
 
 1. **获取价格**
@@ -29,6 +33,7 @@ version: 1.0.0
    - 跌幅>5%：考虑加仓
 
 4. **执行交易**（如有明确信号）
+   - 读取OKX API：~/.openclaw/credentials/okx-api-key.txt
    - 先汇报，等待确认
    - 严格遵守止损/止盈
 
@@ -53,7 +58,7 @@ version: 1.0.0
 **输出**：
 ```
 价格: $2,050 (+3.5%)
-波动: <3%，无交易信号
+波动: <3°，无交易信号
 决策: 继续持有
 ```
 
@@ -69,6 +74,7 @@ version: 1.0.0
 
 ## 自检清单
 
+- [ ] 是否正确读取了API Key？
 - [ ] 是否遵守止损规则？
 - [ ] 是否遵守止盈规则？
 - [ ] 今日交易次数≤2？
@@ -76,9 +82,10 @@ version: 1.0.0
 - [ ] 是否记录到日志？
 
 ## 文件位置
-- Market CLI：`~/market-cli/`
-- 交易脚本：`~/crypto-trader/src/smart-trader.js`
-- 日志：`memory/crypto-trading-log.md`
+- 凭证：~/.openclaw/credentials/okx-api-key.txt
+- Market CLI：~/market-cli/
+- 交易脚本：~/crypto-trader/src/smart-trader.js
+- 日志：memory/crypto-trading-log.md
 - 仓库：https://github.com/JAY5CXSDMY14/crypto-trader
 
 ## 依赖

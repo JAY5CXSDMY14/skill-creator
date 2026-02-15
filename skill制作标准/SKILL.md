@@ -1,6 +1,6 @@
 ---
 name: skill制作标准
-description: 基于Anthropic官方指南的Skill制作完整流程。关键词：制作Skill、创建技能、SKILL.md、YAML、触发词、执行步骤、示例、测试、发布、ClawHub。
+description: 关键词：制作Skill、创建技能、SKILL.md、YAML、触发词、执行步骤、示例、测试、发布、ClawHub
 allowed-tools: read, write, exec, memory_search
 version: 1.0.0
 ---
@@ -17,6 +17,35 @@ version: 1.0.0
 ### 不适合做Skill的场景
 - ❌ 当前项目背景（用Projects）
 - ❌ 个人偏好（用Custom Instructions）
+
+---
+
+## 凭证管理（重要！）
+
+### 安全原则
+- ❌ **禁止**把API Key、私钥等敏感信息写入Skill
+- ✅ 所有凭证存放在：~/.openclaw/credentials/
+- ✅ 执行时动态读取
+
+### 凭证目录结构
+```
+~/.openclaw/credentials/
+├── moltbook/        # Moltbook API
+│   └── api-key.txt
+├── twitter/         # Twitter API
+│   └── auth_token.txt
+├── transition/     # Apple Health API
+│   └── api-key.txt
+└── okx/           # OKX交易
+    └── api-key.txt
+```
+
+### Skill中引用方式
+```markdown
+## 凭证管理
+- API Key位置：~/.openclaw/credentials/moltbook/api-key.txt
+- 读取方式：API_KEY=$(cat ~/.openclaw/credentials/moltbook/api-key.txt)
+```
 
 ---
 
@@ -42,15 +71,10 @@ skill-name/
 ---
 name: skill-name          # 唯一标识，kebab-case（小写+中划线）
 description: 关键词：xxx, xxx, xxx  # 触发关键词，10-20个
-allowed-tools: tool1, tool2       # 需要用到的工具，留空则默认全部
+allowed-tools: tool1, tool2       # 需要用到的工具
 version: 1.0.0                   # 版本号
 ---
 ```
-
-**命名规则**：
-- 小写字母
-- 中划线分隔
-- 避免数字开头
 
 ### 2. Markdown正文结构
 
@@ -60,6 +84,10 @@ version: 1.0.0                   # 版本号
 ## 核心原则
 - 原则1
 - 原则2
+
+## 凭证管理（敏感信息必加）
+- API Key：~/.openclaw/credentials/xxx/xxx.txt
+- 读取方式：xxx=$(cat ~/.openclaw/credentials/xxx/xxx.txt)
 
 ## 执行步骤（Claude必须严格按顺序执行）
 1. 第一步
@@ -73,9 +101,9 @@ version: 1.0.0                   # 版本号
 **输出**：
 xxx
 
-## 注意事项
-- 自检清单1
-- 自检清单2
+## 自检清单
+- [ ] 检查1
+- [ ] 检查2
 ```
 
 ---
@@ -91,10 +119,14 @@ xxx
 - Claude会严格按顺序执行
 
 ### 3. 丰富示例
-- 提供3-5个完整输入→输出对
+- 提供2-3个完整输入→输出对
 - 帮助Claude理解预期输出
 
-### 4. 自检清单
+### 4. 凭证管理（必加）
+- 所有API Key、私钥等敏感信息禁止写入Skill
+- 只写路径，执行时动态读取
+
+### 5. 自检清单
 - 让Claude输出前自动检查
 - 提高输出质量
 
@@ -107,11 +139,6 @@ xxx
 2. 新会话输入触发关键词
 3. 观察是否自动加载
 4. 用 `/list-skills` 查看已加载技能
-
-### 调试技巧
-- 先让Claude输出 "我检测到触发了XXX Skill"
-- 如果不触发，优化description关键词
-- 查看Claude的思考过程
 
 ---
 
@@ -126,41 +153,6 @@ xxx
 
 ---
 
-## 示例：crypto-monitor Skill
-
-```yaml
----
-name: crypto-monitor
-description: 关键词：加密货币、比特币、以太坊、ETH、BTC、价格监控、交易、止损、止盈、交易所API、Binance、OKX
-allowed-tools: exec, memory_search
-version: 1.0.0
----
-
-# 加密货币监控技能
-
-## 核心原则
-- 严格遵守止损止盈规则
-- 每天交易≤2笔
-- 记录每一笔交易
-
-## 执行步骤
-1. 获取ETH价格：curl "https://api.binance.com/api/v3/ticker/24hr?symbol=ETHUSDT"
-2. 计算波动幅度
-3. 判断是否触发交易信号
-4. 执行交易（如有必要）
-5. 记录到日志
-
-## 示例
-
-**输入**：监控ETH价格
-
-**输出**：
-价格: $2,050 (+3.5%)
-信号: 涨幅>3%，继续持有
-```
-
----
-
 ## 官方资源
 
 - 完整指南PDF：https://resources.anthropic.com/hubfs/The-Complete-Guide-to-Building-Skills-for-Claude.pdf
@@ -171,4 +163,4 @@ version: 1.0.0
 
 ## 一句话总结
 
-**好的Skill = 精准YAML触发 + 清晰步骤指令 + 丰富示例 + 必要脚本/模板**
+**好的Skill = 精准YAML触发 + 清晰步骤指令 + 丰富示例 + 凭证安全管理**

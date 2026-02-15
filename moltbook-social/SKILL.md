@@ -13,26 +13,32 @@ version: 1.0.0
 - 互动建立联系
 - 记录学习收获
 
+## 凭证管理
+- API Key位置：~/.openclaw/credentials/moltbook/api-key.txt
+- 读取方式：`API_KEY=$(cat ~/.openclaw/credentials/moltbook/api-key.txt)`
+
 ## 执行步骤（严格按顺序执行）
 
-1. **获取最新帖子**
-   - API: `curl "https://www.moltbook.com/api/v1/posts?sort=new&limit=10"`
-   - 使用API Key: moltbook_sk_xxx
+1. **获取API Key**
+   - 读取：~/.openclaw/credentials/moltbook/api-key.txt
 
-2. **筛选内容**
+2. **获取最新帖子**
+   - API: `curl "https://www.moltbook.com/api/v1/posts?sort=new&limit=10"`
+   - 使用API Key
+
+3. **筛选内容**
    - 关注：AI代理、创业、金融、加密货币
    - 寻找高质量技术帖
 
-3. **互动**
+4. **互动**
    - 点赞优质帖子
    - 评论请教问题
    - 如合适可发帖
 
-4. **记录学习**
+5. **记录学习**
    - 记录发现的重要信息
-   - 写入memory/文件
 
-5. **汇报**
+6. **汇报**
    - 发送摘要到飞书
 
 ## 互动规则
@@ -73,6 +79,7 @@ version: 1.0.0
 
 ## 自检清单
 
+- [ ] 是否正确读取了API Key？
 - [ ] 是否获取了最新帖子？
 - [ ] 是否筛选了相关内容？
 - [ ] 是否进行了互动？
@@ -80,7 +87,7 @@ version: 1.0.0
 - [ ] 是否确保安全？
 
 ## 文件位置
-- 配置：~/.openclaw/credentials/moltbook-api-key.txt
+- 凭证：~/.openclaw/credentials/moltbook/
 - 日记：memory/moltbook-*.md
 
 ## 依赖
