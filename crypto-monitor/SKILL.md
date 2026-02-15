@@ -14,7 +14,7 @@ version: 1.0.0
 - 非必要不交易
 
 ## 凭证管理
-- OKX API位置：~/.openclaw/credentials/okx-api-key.txt
+- 需要：okx api key
 - 读取方式：`API_KEY=$(cat ~/.openclaw/credentials/okx-api-key.txt)`
 
 ## 执行步骤（严格按顺序执行）

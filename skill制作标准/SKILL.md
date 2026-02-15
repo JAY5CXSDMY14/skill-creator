@@ -42,8 +42,8 @@ version: 1.0.0
 
 ### Skill中引用方式
 ```markdown
-## 凭证管理
-- API Key位置：~/.openclaw/credentials/moltbook/api-key.txt
+## 凭证管理（敏感信息必加）
+- 需要：moltbook api key
 - 读取方式：API_KEY=$(cat ~/.openclaw/credentials/moltbook/api-key.txt)
 ```
 
